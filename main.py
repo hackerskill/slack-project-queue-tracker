@@ -19,6 +19,8 @@ app=App(token=bot_token)
 def handle_some_command(ack, respond, command, logger):
     ack()
 
+    logger.info(f"Queue called by {command['user_name']}({command['user_id']}) in channel {command['channel_name']}({command['channel_id']})")
+
     max_attempts=3
     for attempt in range(max_attempts):
         try:
@@ -48,14 +50,14 @@ def handle_some_command(ack, respond, command, logger):
             total_projects=data.get("total_projects", "")
             project_t1=data.get("project_t1", "")
             project_t2=data.get("project_t2", "")
-            oldest_hours=data.get("oldest_hours", "")
+            oldest_hours=(data.get("oldest_hours", ""))//24
             timestamp=data.get("timestamp", "")
 
             timestamp_time=datetime.fromisoformat(timestamp.replace("Z", "+00:00")) if timestamp else None
             final_timestamp_time=timestamp_time.strftime("%B %d, %Y at %I:%M %p") if timestamp_time else "N/A"
 
             if status=="success":
-                respond(f"Total projects: *{total_projects}*\nProject T1: *{project_t1}*\nProject T2: *{project_t2}*\nOldest hours: *{oldest_hours}*\nTimestamp: *{final_timestamp_time}*\n")
+                respond(f"Total projects: *{total_projects}*\nProject T1: *{project_t1}*\nProject T2: *{project_t2}*\nOldest: *{oldest_hours}* days\nTimestamp: *{final_timestamp_time}*\n")
             else:
                 respond("Error Occured")
 
