@@ -34,25 +34,24 @@ def new_project_update(total_projects, project_t1, project_t2, logger):
         logger.info(f"Initialized baseline old_projects to {total_projects}")
         return
 
-    if total_projects>old_projects:
-        logger.info(f"New project detected. Total projects: {total_projects}, Old projects: {old_projects}")
-        if new_project_notifications:
+    if new_project_notifications:
+        if total_projects>old_projects:
+            logger.info(f"New project detected. Total projects: {total_projects}, Old projects: {old_projects}")
             app.client.chat_postMessage(
             channel=channel_id,
             text=f"🚨 New project added! Total projects increased to {total_projects}\n*Updated Queue Status:*\nProject T1: *{project_t1}*\nProject T2: *{project_t2}*")
-    else:
-        logger.info(f"No new project detected. Total projects: {total_projects}, Old projects: {old_projects}")
+        else:
+            logger.info(f"No new project detected. Total projects: {total_projects}, Old projects: {old_projects}")
     old_projects=total_projects
 
-    if project_t1==0:
-        logger.info(f"Project T1 is empty.")
-        if queue_empty_notifications:
+    if queue_empty_notifications:
+        if project_t1==0:
+            logger.info(f"Project T1 is empty.")
             app.client.chat_postMessage(
             channel=channel_id,
             text=f"🚨 Project T1 queue is empty!\n*Updated Queue Status:*\nTotal projects: *{total_projects}*\nProject T1: *{project_t1}*\nProject T2: *{project_t2}*")
-    if project_t2==0:
-        logger.info(f"Project T2 is empty.")
-        if queue_empty_notifications:
+        if project_t2==0:
+            logger.info(f"Project T2 is empty.")
             app.client.chat_postMessage(
             channel=channel_id,
             text=f"🚨 Project T2 queue is empty!\n*Updated Queue Status:*\nTotal projects: *{total_projects}*\nProject T1: *{project_t1}*\nProject T2: *{project_t2}*")
