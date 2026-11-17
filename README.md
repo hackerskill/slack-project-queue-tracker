@@ -36,6 +36,12 @@ A Slack Bot which fetches queue from a base url and can be called using both sla
    pip install -r requirements.txt
    ```
 
+## Usage
+
+The bot can be used in 2 ways-
+1. App mention, pinging the bot gives the response. This reponse is viewable to everyone and is threaded.
+2. Using the slash command set in the code like `/queue`, this returns a ephemeral reponse, only visible to the person who used the command.
+
 ### Running the Application
 
 Once setup is verified, `main.py` can be run to start the discord bot.
